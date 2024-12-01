@@ -2,6 +2,7 @@ package edu.grinnell.csc207.util;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 /**
  * Trees intended to be used in storing mappings between fixed-length 
@@ -149,10 +150,25 @@ public class BitTree {
   } // dump(PrintWriter)
 
   /**
+   * Creates a Tree using set and source.
    *
+   * @param source A input source containing strings
+   * of the format (bits),(val).
    */
   public void load(InputStream source) {
-    // STUB
+
+    Scanner look = new Scanner(source);
+
+    while(look.hasNext()) {
+      String line = look.nextLine();
+
+      String bits = line.substring(0, totalBits);
+      String value = line.substring(totalBits + 1);
+
+      this.set(bits, value);
+    } // while
+
+    look.close();
   } // load(InputStream)
 
 } // class BitTree
