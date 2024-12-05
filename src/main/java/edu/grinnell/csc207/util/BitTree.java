@@ -35,23 +35,6 @@ public class BitTree {
   // +---------------+
 
   /**
-   * Creates a BitTreeNode child for node based on the value of val
-   * and gets set to the child node.
-   *
-   * @param val A char of '1' or '0'.
-   * @param node A node that gets a child and then gets set to the child.
-   */
-  void branchCreator (char val, BitTreeNode node) {
-    if (val == '0') {
-      node.leftChild = new BitTreeNode();
-      node = node.leftChild;
-    } else if (val == '1') {
-      node.rightChild = new BitTreeNode();
-      node = node.rightChild;
-    } // if/else-if
-  } // branchCreator(char, BitTreeNode)
-
-  /**
    * Throws an Exception if the length if bits is incorrect.
    *
    * @param bits The String to check
@@ -71,31 +54,11 @@ public class BitTree {
    */
   void checkBitsString(String bits) throws IndexOutOfBoundsException{
     for (int i = 0; i < bits.length(); i++) {
-      if (bits.charAt(i) != '0' && bits.charAt(i) != '0') {
+      if (bits.charAt(i) != '1' && bits.charAt(i) != '0') {
         throw new IndexOutOfBoundsException();
       } // if
     } // for
   } // checkBitsString(String)
-
-  /**
-   * Checks that the next node that need to be reached exists as 
-   * indicated by bit. Throws an exception if bit does not indicate
-   * correctly or node does not exist.
-   *
-   * @param bit The value indicating where node should traverse to next.
-   * @param node The node that is traversing.
-   * @throws IndexOutOfBoundsException An exception.
-   */
-  void BitTreeTraverser(char bit, BitTreeNode node) throws IndexOutOfBoundsException{
-    if (bit == '0' && !(node.leftChild.equals(null))) {
-      node = node.leftChild;
-    } else if (bit == '1' && !(node.rightChild.equals(null))) {
-      node = node.rightChild;
-    } else {
-      throw new IndexOutOfBoundsException();
-    } // if/else-if/else
-
-  } // BitTreeTraverser
 
   // +---------+-----------------------------------------------------
   // | Methods |
@@ -106,13 +69,32 @@ public class BitTree {
    */
   public void set(String bits, String value) throws IndexOutOfBoundsException {
 
+    if (this.head == null) {
+      this.head = new BitTreeNode();
+    } // if
+
     BitTreeNode current = this.head;
 
     this.incorrectBitLength(bits);
     this.checkBitsString(bits);
 
-    for (int i = 0; i < bits.length(); i ++) {
-      this.branchCreator(bits.charAt(i), current);
+    // Builds out a branch of the tree for the given bits
+    for (int i = 0; i < bits.length(); i++) {
+
+      // Creates the orientation of the branch and
+      // iterates down the branch
+      if (bits.charAt(i) == '0') {
+        if (current.leftChild == null) {
+          current.leftChild = new BitTreeNode();
+        } // if
+        current = current.leftChild;
+      } else if (bits.charAt(i) == '1') {
+        if (current.rightChild == null) {
+          current.rightChild = new BitTreeNode();
+        } // if
+        current = current.rightChild;
+
+      } // if/else-if
     } // for
 
     //Sets the node at the end with a value.
@@ -133,10 +115,17 @@ public class BitTree {
     BitTreeNode current = this.head;
   
     this.incorrectBitLength(bits);
+    this.checkBitsString(bits);
 
     // Reaches the end of the Tree if no exceptions thrown.
     for (int i = 0; i < bits.length(); i++) {
-      BitTreeTraverser(bits.charAt(i), current);
+      if (bits.charAt(i) == '0' && current.leftChild != null) {
+        current = current.leftChild;
+      } else if (bits.charAt(i) == '1' && current.rightChild != null) {
+        current = current.rightChild;
+      } else {
+        throw new IndexOutOfBoundsException();
+      } // if/else-if/else
     } // for
 
     return current.value;
@@ -170,7 +159,7 @@ public class BitTree {
 
   // level starts at 1
   public void BitTreeTraverserNodes(BitTreeNode node, int level, String currentBitStr, PrintWriter pen) {
-    if (node.leftChild.equals(null) && node.rightChild.equals(null)) {
+    if (node.leftChild == null && node.rightChild == null) {
       try {
         pen.printf("%s,%s\n", currentBitStr, node.value);
       } catch (Exception e) {
@@ -178,11 +167,11 @@ public class BitTree {
       } // try/catch
     } // if
 
-    if (!(node.leftChild.equals(null))) {
+    if (node.leftChild != null) {
       BitTreeTraverserNodes(node.leftChild, level + 1, currentBitStr + "0", pen);
     } // if
 
-    if (!(node.rightChild.equals(null))) {
+    if (node.rightChild != null) {
       BitTreeTraverserNodes(node.rightChild, level + 1, currentBitStr + "1", pen);
     } // if
   } // BitTreeTraverserNodes(BitTreeNode, int, String, PrintWriter)
