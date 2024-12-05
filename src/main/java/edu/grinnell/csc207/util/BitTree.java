@@ -128,7 +128,7 @@ public class BitTree {
    * @param bits The String that indicates how to traverse the tree.
    * @return The value at the end of the tree.
    */
-  public String get(String bits) {
+  public String get(String bits) throws IndexOutOfBoundsException {
 
     BitTreeNode current = this.head;
   
@@ -146,8 +146,77 @@ public class BitTree {
    *
    */
   public void dump(PrintWriter pen) {
-    // STUB
+
+    // BitTreeNode current = this.head;
+
+    // Should initialize with all 0s.
+    // int[] bitStrInt = new int[this.totalBits];
+
+    // while(bitStrIntAdditionUpdate(bitStrInt, totalBits)) {
+
+    //   try {
+    //     String currentBitStrVal = this.get(this.bitStrArrToString(bitStrInt));
+    //     pen.printf("%s,%s", bitStrArrToString(bitStrInt), currentBitStrVal);
+    //   } catch (Exception e) {
+    //     // do Nothing / Skip over
+    //   } // try/catch
+
+    //   bitStrInt[totalBits - 1]++;
+    // } // while
+
+    this.BitTreeTraverserNodes(this.head, 1, "", pen);
+
   } // dump(PrintWriter)
+
+  // level starts at 1
+  public void BitTreeTraverserNodes(BitTreeNode node, int level, String currentBitStr, PrintWriter pen) {
+    if (node.leftChild.equals(null) && node.rightChild.equals(null)) {
+      try {
+        pen.printf("%s,%s\n", currentBitStr, node.value);
+      } catch (Exception e) {
+        // should not throw an exception since recursion gets correct bit String.
+      } // try/catch
+    } // if
+
+    if (!(node.leftChild.equals(null))) {
+      BitTreeTraverserNodes(node.leftChild, level + 1, currentBitStr + "0", pen);
+    } // if
+
+    if (!(node.rightChild.equals(null))) {
+      BitTreeTraverserNodes(node.rightChild, level + 1, currentBitStr + "1", pen);
+    } // if
+  } // BitTreeTraverserNodes(BitTreeNode, int, String, PrintWriter)
+
+  // public String bitStrArrToString(int[] bitStrArr) {
+  //   String bitStr = "";
+
+  //   for (int i = 0; i < bitStrArr.length; i++) {
+  //     bitStr += Integer.toString(bitStrArr[i]);
+  //   } // for
+    
+  //   return bitStr;
+  // } // bitStrArrToString(int[], int)
+
+  // public boolean bitStrIntAdditionUpdate(int[] bitStrInt, int index) {
+
+  //   // checks if element at index need updating.
+  //   if (bitStrInt[index] == 2) {
+  //     if (index - 1 < 0) {
+  //       // Used to indicate that everything has been checked
+  //       return false;
+  //     } else {
+  //       bitStrInt[index - 1]++;
+  //       bitStrInt[index] = 0;
+
+  //       // checks if full
+  //       // safe to call since index - 1 is checked above
+  //       return bitStrIntAdditionUpdate(bitStrInt, index - 1);
+  //     } // if/else
+  //   } // if
+
+  //   // returns true if no updating needed.
+  //   return true;
+  // }
 
   /**
    * Creates a Tree using set and source.
@@ -163,6 +232,8 @@ public class BitTree {
       String line = look.nextLine();
 
       String bits = line.substring(0, totalBits);
+
+      // start at totalBits + 1 since there is a comma (skips over comma)
       String value = line.substring(totalBits + 1);
 
       this.set(bits, value);
