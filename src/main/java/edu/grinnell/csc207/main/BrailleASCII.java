@@ -3,8 +3,11 @@ package edu.grinnell.csc207.main;
 import java.io.PrintWriter;
 import edu.grinnell.csc207.util.BrailleAsciiTables;
 
-/** NEED TO ADD AUTHORS TO EVERYTHING AND COMMENTS
+/**
+ * A class that runs a translator that translates from 
+ * braille to ascii, braille to unicode, and ascii to braille.
  *
+ * @author Richard Lin
  */
 public class BrailleASCII {
   // +------+--------------------------------------------------------
@@ -12,7 +15,9 @@ public class BrailleASCII {
   // +------+
 
   /**
+   * Translates from braille to ascii, braille to unicode, and ascii to braille.
    *
+   * @param args Command-line Arguments.
    */
   public static void main(String[] args) {
     PrintWriter pen = new PrintWriter(System.out, true);
@@ -24,7 +29,17 @@ public class BrailleASCII {
     error.close();
   } // main(String[]
 
+  /**
+   * Runs a translator that works when given the correct parameters,
+   * i.e. args has length 2 and its elements have a certain form.
+   *
+   * @param args The command-line arguments.
+   * @param pen Used for printing.
+   * @param error Prints errors.
+   */
   static void runTranslator(String[] args, PrintWriter pen, PrintWriter error) {
+
+    // Check that the command-line argument has a length of two.
     if (args.length != 2) {
       error.println("Invalid number of Command-line Arguments. Need Only 2.");
       return;
@@ -48,21 +63,35 @@ public class BrailleASCII {
       } // try/catch
     } // if/else
 
-  }
+  } // runTranslator(String[], PrintWriter, PrintWriter)
 
-  // ascii = 0, braille = 1, unicode = 2
+
+  /**
+   * Prints message translated into ascii, braille, or unicode as defined by mode.
+   * Where mode = 0 for ascii, 1 for braille, and 2 for unicode.
+   *
+   * @param message A String to be translated.
+   * @param pen Used for printing.
+   * @param error Prints errors.
+   * @param mode An int indicating how message should be translated.
+   */
   static void printMessage(String message, PrintWriter pen, PrintWriter error, int mode) {
+    
+    // Assigns the length of each individual letter depending on the mode.
     int bitLength = 1; // default is braille.
 
     if (mode == 0 || mode == 2) { // for ascii / unicode 
       bitLength = 6;
     } // if
 
+    // Message length does not contain the correct number of letters
+    // as given by the length of each letter
     if (message.length() % bitLength != 0) {
       error.println("Invalid length of bit string.");
       return;
     } // if
 
+    // Translate depending on mode
     if (mode == 0) {
       for (int i = 0; i < message.length() /  bitLength; i += bitLength) {
         pen.print(BrailleAsciiTables.toAscii(message.substring(i, i + bitLength)));
