@@ -19,7 +19,7 @@ public class BrailleAsciiTables {
   /**
    * Conversions from ASCII to braille.
    */
-  static final String a2b = 
+  static final String a2b =
       "01000001,100000\n"
       + "01000010,110000\n"
       + "01000011,100100\n"
@@ -232,9 +232,10 @@ public class BrailleAsciiTables {
    * @param bitTree A BitTree that stores strings.
    * @param bitStr A string used to get the value stored in bitTree.
    * @return A string.
-   * @throws RuntimeException An exception
+   * @throws RuntimeErrorException An exception
    */
-  static String returnStrOrThrowException(BitTree bitTree, String bitStr) throws RuntimeException{
+  static String returnStrOrThrowException(BitTree bitTree, String bitStr)
+      throws RuntimeErrorException {
     try {
       return bitTree.get(bitStr);
     } catch (Exception e) {
@@ -248,15 +249,15 @@ public class BrailleAsciiTables {
 
   /**
    * Returns a String of the translation of a letter into braille.
-   * 
+   *
    * First if statement made by Sam R
    * (with exception to changes in variable names and a certain number).
    *
    * @param letter The char to be translated.
    * @return A String representing braille.
-   * @throws RuntimeException An exception.
+   * @throws RuntimeErrorException An exception.
    */
-  public static String toBraille(char letter) throws RuntimeException {
+  public static String toBraille(char letter) throws RuntimeErrorException {
 
     // Make sure we've loaded the ASCII-to-braille tree.
     if (null == a2bTree) {
@@ -277,15 +278,15 @@ public class BrailleAsciiTables {
 
   /**
    * Returns a String of the translation of braille into a letter.
-   * 
+   *
    * First if statement made by Sam R
    * (with exception to changes in variable names and a certain number).
    *
    * @param bits The string of bits (braille) to be translated.
    * @return A String representing a letter.
-   * @throws RuntimeException An exception.
+   * @throws RuntimeErrorException An exception.
    */
-  public static String toAscii(String bits) throws RuntimeException {
+  public static String toAscii(String bits) throws RuntimeErrorException {
 
     // Make sure we've loaded the braille-to-ASCII tree.
     if (null == b2aTree) {
@@ -305,7 +306,7 @@ public class BrailleAsciiTables {
 
   /**
    * Returns a String of the translation of braille into a unicode character.
-   * 
+   *
    * First if statement made by Sam R
    * (with exception to changes in variable names and a certain number).
    *
@@ -331,4 +332,4 @@ public class BrailleAsciiTables {
 
     return new String(Character.toChars(Integer.parseInt(unicodeStr, 16)));
   } // toUnicode(String)
-} // BrailleAsciiTables
+} // class BrailleAsciiTables

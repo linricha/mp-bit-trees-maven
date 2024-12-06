@@ -32,11 +32,11 @@ public class BitTreeNode {
   /**
    * Constructs the BitTreeNode Object.
    */
-  public BitTreeNode () {
+  public BitTreeNode() {
   } // BitTreeNode()
 
   // +---------+-----------------------------------------------------
   // | Methods |
   // +---------+
 
-}
+} // class BitTreeNode

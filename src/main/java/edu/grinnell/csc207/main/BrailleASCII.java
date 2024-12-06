@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import edu.grinnell.csc207.util.BrailleAsciiTables;
 
 /**
- * A class that runs a translator that translates from 
+ * A class that runs a translator that translates from
  * braille to ascii, braille to unicode, and ascii to braille.
  *
  * @author Richard Lin
@@ -56,10 +56,12 @@ public class BrailleASCII {
           printMessage(args[1], pen, error, 2);
 
         } else {
-          error.println("Invalid translation option. Valid ones are: \'ascii\',\'braille\', or \'unicode\'.");
+          error.println(
+              "Invalid translation option. Valid ones are: \'ascii\',\'braille\', or \'unicode\'.");
         } // if/else-if/else-if/else
       } catch (Exception e) {
-        error.println("\nTrouble translating because No corresponding value."); // clear failed translation by doing \n before
+        // clear failed translation by doing \n before
+        error.println("\nTrouble translating because No corresponding value.");
       } // try/catch
     } // if/else
 
@@ -76,11 +78,11 @@ public class BrailleASCII {
    * @param mode An int indicating how message should be translated.
    */
   static void printMessage(String message, PrintWriter pen, PrintWriter error, int mode) {
-    
+
     // Assigns the length of each individual letter depending on the mode.
     int bitLength = 1; // default is braille.
 
-    if (mode == 0 || mode == 2) { // for ascii / unicode 
+    if (mode == 0 || mode == 2) { // for ascii / unicode
       bitLength = 6;
     } // if
 

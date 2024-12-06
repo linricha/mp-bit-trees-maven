@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
- * Trees intended to be used in storing mappings between fixed-length 
+ * Trees intended to be used in storing mappings between fixed-length
  * sequences of bits and corresponding values.
  *
  * @author Richard Lin
@@ -32,6 +32,8 @@ public class BitTree {
 
   /**
    * Constructs a BitTree that takes bit Strings of length n.
+   *
+   * @param n The number of total bits.
    */
   public BitTree(int n) {
     this.totalBits = n;
@@ -59,7 +61,7 @@ public class BitTree {
    * @param bits The String to check.
    * @throws IndexOutOfBoundsException An exception.
    */
-  void checkBitsString(String bits) throws IndexOutOfBoundsException{
+  void checkBitsString(String bits) throws IndexOutOfBoundsException {
     for (int i = 0; i < bits.length(); i++) {
       if (bits.charAt(i) != '1' && bits.charAt(i) != '0') {
         throw new IndexOutOfBoundsException();
@@ -111,7 +113,7 @@ public class BitTree {
 
     //Sets the node at the end with a value.
     current.value = value;
-    
+
   } // set(String, String)
 
   /**
@@ -126,7 +128,7 @@ public class BitTree {
   public String get(String bits) throws IndexOutOfBoundsException {
 
     BitTreeNode current = this.head;
-  
+
     this.incorrectBitLength(bits);
     this.checkBitsString(bits);
 
@@ -151,7 +153,7 @@ public class BitTree {
    * @param pen Used to print.
    */
   public void dump(PrintWriter pen) {
-    this.BitTreeTraverserNodes(this.head, "", pen);
+    this.bitTreeTraverserNodes(this.head, "", pen);
 
   } // dump(PrintWriter)
 
@@ -165,7 +167,7 @@ public class BitTree {
    * one branch of the BitTree.
    * @param pen Used for printing.
    */
-  public void BitTreeTraverserNodes(BitTreeNode node, String currentBitStr, PrintWriter pen) {
+  public void bitTreeTraverserNodes(BitTreeNode node, String currentBitStr, PrintWriter pen) {
     if (node.leftChild == null && node.rightChild == null) {
       try {
         pen.printf("%s,%s\n", currentBitStr, node.value);
@@ -175,13 +177,13 @@ public class BitTree {
     } // if
 
     if (node.leftChild != null) {
-      BitTreeTraverserNodes(node.leftChild, currentBitStr + "0", pen);
+      bitTreeTraverserNodes(node.leftChild, currentBitStr + "0", pen);
     } // if
 
     if (node.rightChild != null) {
-      BitTreeTraverserNodes(node.rightChild, currentBitStr + "1", pen);
+      bitTreeTraverserNodes(node.rightChild, currentBitStr + "1", pen);
     } // if
-  } // BitTreeTraverserNodes(BitTreeNode, String, PrintWriter)
+  } // bitTreeTraverserNodes(BitTreeNode, String, PrintWriter)
 
   /**
    * Creates a Tree using set and source.
@@ -194,7 +196,7 @@ public class BitTree {
     Scanner look = new Scanner(source);
 
     // Reads through each line of the InputStream.
-    while(look.hasNext()) {
+    while (look.hasNext()) {
       String line = look.nextLine();
 
       String bits = line.substring(0, totalBits);
