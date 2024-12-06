@@ -15,7 +15,27 @@ A mini-project exploring bit trees (a form of binary tree) and their use in tran
 
 **Instructions for use**
 
-_Please insert instructions here._
+For BrailleASCII.java:
+
+    inputs are in this form (for COMMAND-LINE ARGUMENTS):
+
+    (Language) (String)
+
+    Language:
+        ascii, braille, unicode
+
+    String:
+        for ascii and for unicode: 
+            String with length multiple of 6 length (1s and 0s only)
+
+        for braille: 
+            String with length multiple of 1 (Characters only)
+
+
+ascii translates from braille to ASCII.
+braille translates from ASCII to braille.
+unicode translates from braille to UNICODE.
+
 
 ---
 

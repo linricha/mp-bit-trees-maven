@@ -46,13 +46,13 @@ public class BrailleASCII {
     } else {
 
       try {
-        if (args[1].compareTo("ascii") == 0) {
+        if (args[0].compareTo("ascii") == 0) {
           printMessage(args[1], pen, error, 0);
 
-        } else if (args[1].compareTo("braille") == 0) {
+        } else if (args[0].compareTo("braille") == 0) {
           printMessage(args[1], pen, error, 1);
 
-        } else if (args[1].compareTo("unicode") == 0) {
+        } else if (args[0].compareTo("unicode") == 0) {
           printMessage(args[1], pen, error, 2);
 
         } else {
@@ -93,16 +93,16 @@ public class BrailleASCII {
 
     // Translate depending on mode
     if (mode == 0) {
-      for (int i = 0; i < message.length() /  bitLength; i += bitLength) {
+      for (int i = 0; i < message.length(); i += bitLength) {
         pen.print(BrailleAsciiTables.toAscii(message.substring(i, i + bitLength)));
       } // for
     } else if (mode == 1) {
-      for (int i = 0; i < message.length() /  bitLength; i += bitLength) {
+      for (int i = 0; i < message.length(); i += bitLength) {
         pen.print(BrailleAsciiTables.toBraille(message.charAt(i)));
       } // for
     } else { // mode == 2
-      for (int i = 0; i < message.length() /  bitLength; i += bitLength) {
-        pen.println(BrailleAsciiTables.toUnicode(message.substring(i, i + bitLength)));
+      for (int i = 0; i < message.length(); i += bitLength) {
+        pen.print(BrailleAsciiTables.toUnicode(message.substring(i, i + bitLength)));
       } // for
     } // if/else-if/else-if
 
