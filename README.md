@@ -9,7 +9,8 @@ A mini-project exploring bit trees (a form of binary tree) and their use in tran
 
 **Acknowledgements**
 
-*
+* Return line from toUnicode method in BrailleASciiTables.java is from class CSC207-02,
+    Tuesday December 3, 2024.
 *
 *
 
