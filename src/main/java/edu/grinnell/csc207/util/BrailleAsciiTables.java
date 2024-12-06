@@ -6,7 +6,7 @@ import javax.management.RuntimeErrorException;
 import java.io.IOException;
 
 /**
- *
+ * A table that allows translation between ASCII, braille, and unicode.
  *
  * @author Richard Lin
  * @author Samuel A. Rebelsky
@@ -180,17 +180,17 @@ public class BrailleAsciiTables {
   // +---------------+
 
   /**
-   *
+   * Stores the BitTree for ASCII to braille translation.
    */
   static BitTree a2bTree = null;
 
   /**
-   *
+   * Stores the BitTree for braille to ASCII translation.
    */
   static BitTree b2aTree = null;
 
   /**
-   *
+   * Stores the BitTree for braille to Unicode translation.
    */
   static BitTree b2uTree = null;
 
@@ -200,11 +200,22 @@ public class BrailleAsciiTables {
 
   // Adds zeros to front of str depending on length disparity between intended and str
   // Assume that length is always less than str
+
+  /**
+   * Adds zero to str based on the difference between the intended length of the str
+   * (length) and the actual length of str.
+   *
+   * @param length The intended length of str.
+   * @param str The string to be checked.
+   * @return Str with extras 0s in the front it, so that the returned string
+   * has length length.
+   */
   static String strAddZerosToFront(int length, String str) {
 
     String zerosStr = "";
     String zero = "0";
 
+    // Computes and creates a string of the missing number of zeros.
     int numZeros = length - str.length();
     while (numZeros > 0) {
       zerosStr += zero;
@@ -214,7 +225,16 @@ public class BrailleAsciiTables {
     return zerosStr + str;
   } // strAddZerosToFront(int, String)
 
-  static String returnStrOrThrowException(BitTree bitTree, String bitStr) {
+  /**
+   * Returns the string associated with bitStr as stored in bitTree.
+   * Throws an exception if bitStr does not exist in bitTree.
+   *
+   * @param bitTree A BitTree that stores strings.
+   * @param bitStr A string used to get the value stored in bitTree.
+   * @return A string.
+   * @throws RuntimeException An exception
+   */
+  static String returnStrOrThrowException(BitTree bitTree, String bitStr) throws RuntimeException{
     try {
       return bitTree.get(bitStr);
     } catch (Exception e) {
@@ -227,7 +247,14 @@ public class BrailleAsciiTables {
   // +----------------+
 
   /**
-   * Check if assume correct is possible in eboards. Think it is, but check.
+   * Returns a String of the translation of a letter into braille.
+   * 
+   * First if statement made by Sam R
+   * (with exception to changes in variable names and a certain number).
+   *
+   * @param letter The char to be translated.
+   * @return A String representing braille.
+   * @throws RuntimeException An exception.
    */
   public static String toBraille(char letter) throws RuntimeException {
 
@@ -249,7 +276,14 @@ public class BrailleAsciiTables {
   } // toBraille(char)
 
   /**
+   * Returns a String of the translation of braille into a letter.
+   * 
+   * First if statement made by Sam R
+   * (with exception to changes in variable names and a certain number).
    *
+   * @param bits The string of bits (braille) to be translated.
+   * @return A String representing a letter.
+   * @throws RuntimeException An exception.
    */
   public static String toAscii(String bits) throws RuntimeException {
 
@@ -270,7 +304,14 @@ public class BrailleAsciiTables {
   } // toAscii(String)
 
   /**
+   * Returns a String of the translation of braille into a unicode character.
+   * 
+   * First if statement made by Sam R
+   * (with exception to changes in variable names and a certain number).
    *
+   * @param bits The string of bits (braille) to be translated.
+   * @return A String representing a unicode character.
+   * @throws RuntimeException An exception.
    */
   public static String toUnicode(String bits) throws RuntimeException {
 
