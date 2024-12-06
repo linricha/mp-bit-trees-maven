@@ -9,14 +9,21 @@ import java.util.Scanner;
  * sequences of bits and corresponding values.
  *
  * @author Richard Lin
+ * @author Samuel A. Rebelsky
  */
 public class BitTree {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
 
+  /**
+   * The total length of the bit Strings.
+   */
   int totalBits;
 
+  /**
+   * The start/head node of the BitTree.
+   */
   BitTreeNode head;
 
   // +--------------+------------------------------------------------
@@ -24,7 +31,7 @@ public class BitTree {
   // +--------------+
 
   /**
-   *
+   * Constructs a BitTree that takes bit Strings of length n.
    */
   public BitTree(int n) {
     this.totalBits = n;
@@ -65,7 +72,12 @@ public class BitTree {
   // +---------+
 
   /**
+   * Creates a branch in the tree starting from this.head using the character values
+   * stored in bits, setting the value of the node at the end of the branch with value.
    *
+   * @param bits The string of bits to read.
+   * @param value The string to be set as the value at the end of the branch.
+   * @throws IndexOutOfBoundsException An exception.
    */
   public void set(String bits, String value) throws IndexOutOfBoundsException {
 
@@ -109,6 +121,7 @@ public class BitTree {
    *
    * @param bits The String that indicates how to traverse the tree.
    * @return The value at the end of the tree.
+   * @throws IndexOutOfBoundsException An Exception.
    */
   public String get(String bits) throws IndexOutOfBoundsException {
 
@@ -129,36 +142,30 @@ public class BitTree {
     } // for
 
     return current.value;
-  } // get(String, String)
+  } // get(String)
 
   /**
+   * Prints out the contents of the branch in the form:
+   * BitString,value.
    *
+   * @param pen Used to print.
    */
   public void dump(PrintWriter pen) {
-
-    // BitTreeNode current = this.head;
-
-    // Should initialize with all 0s.
-    // int[] bitStrInt = new int[this.totalBits];
-
-    // while(bitStrIntAdditionUpdate(bitStrInt, totalBits)) {
-
-    //   try {
-    //     String currentBitStrVal = this.get(this.bitStrArrToString(bitStrInt));
-    //     pen.printf("%s,%s", bitStrArrToString(bitStrInt), currentBitStrVal);
-    //   } catch (Exception e) {
-    //     // do Nothing / Skip over
-    //   } // try/catch
-
-    //   bitStrInt[totalBits - 1]++;
-    // } // while
-
-    this.BitTreeTraverserNodes(this.head, 1, "", pen);
+    this.BitTreeTraverserNodes(this.head, "", pen);
 
   } // dump(PrintWriter)
 
-  // level starts at 1
-  public void BitTreeTraverserNodes(BitTreeNode node, int level, String currentBitStr, PrintWriter pen) {
+  /**
+   * A helper function of dump that recursively looks at the current branches in
+   * the Bit Tree and prints the Bit String created from traversing down the
+   * branches of the Bit Tree and the value.
+   *
+   * @param node The current node to look at.
+   * @param currentBitStr The current Bit String formed from traversing
+   * one branch of the BitTree.
+   * @param pen Used for printing.
+   */
+  public void BitTreeTraverserNodes(BitTreeNode node, String currentBitStr, PrintWriter pen) {
     if (node.leftChild == null && node.rightChild == null) {
       try {
         pen.printf("%s,%s\n", currentBitStr, node.value);
@@ -168,44 +175,13 @@ public class BitTree {
     } // if
 
     if (node.leftChild != null) {
-      BitTreeTraverserNodes(node.leftChild, level + 1, currentBitStr + "0", pen);
+      BitTreeTraverserNodes(node.leftChild, currentBitStr + "0", pen);
     } // if
 
     if (node.rightChild != null) {
-      BitTreeTraverserNodes(node.rightChild, level + 1, currentBitStr + "1", pen);
+      BitTreeTraverserNodes(node.rightChild, currentBitStr + "1", pen);
     } // if
-  } // BitTreeTraverserNodes(BitTreeNode, int, String, PrintWriter)
-
-  // public String bitStrArrToString(int[] bitStrArr) {
-  //   String bitStr = "";
-
-  //   for (int i = 0; i < bitStrArr.length; i++) {
-  //     bitStr += Integer.toString(bitStrArr[i]);
-  //   } // for
-    
-  //   return bitStr;
-  // } // bitStrArrToString(int[], int)
-
-  // public boolean bitStrIntAdditionUpdate(int[] bitStrInt, int index) {
-
-  //   // checks if element at index need updating.
-  //   if (bitStrInt[index] == 2) {
-  //     if (index - 1 < 0) {
-  //       // Used to indicate that everything has been checked
-  //       return false;
-  //     } else {
-  //       bitStrInt[index - 1]++;
-  //       bitStrInt[index] = 0;
-
-  //       // checks if full
-  //       // safe to call since index - 1 is checked above
-  //       return bitStrIntAdditionUpdate(bitStrInt, index - 1);
-  //     } // if/else
-  //   } // if
-
-  //   // returns true if no updating needed.
-  //   return true;
-  // }
+  } // BitTreeTraverserNodes(BitTreeNode, String, PrintWriter)
 
   /**
    * Creates a Tree using set and source.
@@ -217,6 +193,7 @@ public class BitTree {
 
     Scanner look = new Scanner(source);
 
+    // Reads through each line of the InputStream.
     while(look.hasNext()) {
       String line = look.nextLine();
 
