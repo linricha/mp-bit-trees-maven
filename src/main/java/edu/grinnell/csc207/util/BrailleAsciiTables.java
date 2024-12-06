@@ -205,34 +205,14 @@ public class BrailleAsciiTables {
     String zerosStr = "";
     String zero = "0";
 
-    int numZeros = str.length() - length;
-    if (numZeros != 0) {
-      while (numZeros < 0) {
-        zerosStr += zero;
-        numZeros--;
-      } // while
-    } // if
+    int numZeros = length - str.length();
+    while (numZeros > 0) {
+      zerosStr += zero;
+      numZeros--;
+    } // while
 
     return zerosStr + str;
   } // strAddZerosToFront(int, String)
-
-
-  //Made heavily using starter code from Sam R, 
-  // changed so that it applies to a specified bitTree
-  // and bitLength and bitStr
-  static void loadBitTree(BitTree bitTree, int bitLength, String bitStr) {
-    // Make sure we've loaded the bitTree
-    if (null == bitTree) {
-      bitTree = new BitTree(bitLength);
-      InputStream bitTreeStream = new ByteArrayInputStream(bitStr.getBytes());
-      bitTree.load(bitTreeStream);
-      try {
-        bitTreeStream.close();
-      } catch (IOException e) {
-        // We don't care if we can't close the stream.
-      } // try/catch
-    } // if
-  } // loadBitTree(BitTree, int, String)
 
   static String returnStrOrThrowException(BitTree bitTree, String bitStr) {
     try {
@@ -250,9 +230,20 @@ public class BrailleAsciiTables {
    * Check if assume correct is possible in eboards. Think it is, but check.
    */
   public static String toBraille(char letter) throws RuntimeException {
-    String bitCharStr = strAddZerosToFront(8, Integer.toBinaryString(letter));
 
-    loadBitTree(a2bTree, 8, a2b);
+    // Make sure we've loaded the ASCII-to-braille tree.
+    if (null == a2bTree) {
+      a2bTree = new BitTree(8);
+      InputStream a2bStream = new ByteArrayInputStream(a2b.getBytes());
+      a2bTree.load(a2bStream);
+      try {
+        a2bStream.close();
+      } catch (IOException e) {
+        // We don't care if we can't close the stream.
+      } // try/catch
+    } // if
+
+    String bitCharStr = strAddZerosToFront(8, Integer.toBinaryString(letter));
 
     return returnStrOrThrowException(a2bTree, bitCharStr);
   } // toBraille(char)
@@ -262,10 +253,20 @@ public class BrailleAsciiTables {
    */
   public static String toAscii(String bits) throws RuntimeException {
 
-    loadBitTree(b2aTree, 6, bits);
+    // Make sure we've loaded the braille-to-ASCII tree.
+    if (null == b2aTree) {
+      b2aTree = new BitTree(6);
+      InputStream b2aStream = new ByteArrayInputStream(b2a.getBytes());
+      b2aTree.load(b2aStream);
+      try {
+        b2aStream.close();
+      } catch (IOException e) {
+        // We don't care if we can't close the stream.
+      } // try/catch
+    } // if
 
     // change method to better name like getStrInTree
-    return returnStrOrThrowException(a2bTree, bits);
+    return returnStrOrThrowException(b2aTree, bits);
   } // toAscii(String)
 
   /**
@@ -273,11 +274,20 @@ public class BrailleAsciiTables {
    */
   public static String toUnicode(String bits) throws RuntimeException {
 
-    loadBitTree(b2uTree, 6, bits);
+    // Make sure we've loaded the braille-to-unicode tree.
+    if (null == b2uTree) {
+      b2uTree = new BitTree(6);
+      InputStream b2uStream = new ByteArrayInputStream(b2u.getBytes());
+      b2uTree.load(b2uStream);
+      try {
+        b2uStream.close();
+      } catch (IOException e) {
+        // We don't care if we can't close the stream.
+      } // try/catch
+    } // if
 
-    String unicodeStr = returnStrOrThrowException(a2bTree, bits);
+    String unicodeStr = returnStrOrThrowException(b2uTree, bits);
 
     return new String(Character.toChars(Integer.parseInt(unicodeStr, 16)));
-    // Maybe do a try since parseInt can throw Exception, which it won't since custom input.
   } // toUnicode(String)
 } // BrailleAsciiTables

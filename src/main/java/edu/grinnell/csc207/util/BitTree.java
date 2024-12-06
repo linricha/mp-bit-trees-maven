@@ -124,7 +124,7 @@ public class BitTree {
       } else if (bits.charAt(i) == '1' && current.rightChild != null) {
         current = current.rightChild;
       } else {
-        throw new IndexOutOfBoundsException();
+        throw new IndexOutOfBoundsException(); // maybe Remove
       } // if/else-if/else
     } // for
 
